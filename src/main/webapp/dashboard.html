@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiveTrack | Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Give<span>Track</span></div>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#donations">Donations</a>
+        <a href="#allocations">Allocations</a>
+        <a href="index.html">Logout</a>
+    </nav>
+</header>
+
+<main class="dashboard">
+
+    <div class="dashboard-heading">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Welcome to GiveTrack Donation Management System</p>
+        </div>
+        <span class="role">Authorised User</span>
+    </div>
+
+    <section class="summary-cards">
+
+        <div class="summary-card">
+            <h3>Total Donations</h3>
+            <p class="amount">₹20,000</p>
+            <span>Amount received</span>
+        </div>
+
+        <div class="summary-card">
+            <h3>Total Allocated</h3>
+            <p class="amount">₹13,000</p>
+            <span>Amount distributed</span>
+        </div>
+
+        <div class="summary-card">
+            <h3>Remaining Balance</h3>
+            <p class="amount">₹7,000</p>
+            <span>Amount available</span>
+        </div>
+
+    </section>
+
+    <section class="dashboard-section" id="donations">
+        <div class="section-heading">
+            <h2>Recent Donations</h2>
+            <button onclick="showMessage('Donation recording will be available soon.')">
+                + Add Donation
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Donor</th>
+                        <th>Date</th>
+                        <th>Donation Type</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Sample Donor</td>
+                        <td>13 Nov 2026</td>
+                        <td>Cash</td>
+                        <td>₹20,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="dashboard-section" id="allocations">
+        <div class="section-heading">
+            <h2>Recent Allocations</h2>
+            <button onclick="showMessage('Allocation recording will be available soon.')">
+                + Add Allocation
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Beneficiary</th>
+                        <th>Purpose</th>
+                        <th>Date</th>
+                        <th>Allocated Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Sample Beneficiary</td>
+                        <td>Education Support</td>
+                        <td>13 Nov 2026</td>
+                        <td>₹8,000</td>
+                        <td><span class="status">ALLOCATED</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Sample Beneficiary 2</td>
+                        <td>Medical Support</td>
+                        <td>13 Nov 2026</td>
+                        <td>₹5,000</td>
+                        <td><span class="status">FULFILLED</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <p id="dashboardMessage"></p>
+
+</main>
+
+<footer>
+    <p>© 2026 GiveTrack | Community Donation Ledger</p>
+</footer>
+
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

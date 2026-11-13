@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiveTrack | Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Give<span>Track</span></div>
+        <p>Community Donation Ledger</p>
+    </header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <h1>Welcome to GiveTrack</h1>
+            <p>
+                Manage community donations, track fund allocations
+                and maintain transparent financial records.
+            </p>
+
+            <div class="features">
+                <div>✓ Record donations</div>
+                <div>✓ Manage beneficiaries</div>
+                <div>✓ Track fund allocations</div>
+                <div>✓ Monitor remaining balances</div>
+            </div>
+        </section>
+
+        <section class="login-card">
+            <h2>Login</h2>
+            <p class="subtitle">Sign in to access your account</p>
+
+            <form id="loginForm" action="login" method="POST">
+
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <button type="submit">Sign In</button>
+
+                <p id="message"></p>
+            </form>
+
+            <p class="login-note">
+                Access is provided to authorised users only.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 GiveTrack | Community Donation Ledger</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
