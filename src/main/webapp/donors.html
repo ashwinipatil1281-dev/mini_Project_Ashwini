@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiveTrack | Donor Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Give<span>Track</span></div>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="donors.html">Donors</a>
+        <a href="beneficiaries.html">Beneficiaries</a>
+        <a href="donations.html">Donations</a>
+        <a href="allocations.html">Allocations</a>
+        <a href="index.html">Logout</a>
+    </nav>
+</header>
+
+<main class="dashboard">
+
+    <div class="dashboard-heading">
+        <div>
+            <h1>Donor Management</h1>
+            <p>Manage community donors and their information.</p>
+        </div>
+    </div>
+
+    <section class="dashboard-section">
+        <h2>Add New Donor</h2>
+
+        <form id="donorForm">
+
+            <label for="donorName">Donor Name</label>
+            <input type="text" id="donorName"
+                   placeholder="Enter donor name" required>
+
+            <label for="donorPhone">Phone Number</label>
+            <input type="tel" id="donorPhone"
+                   placeholder="Enter phone number" required>
+
+            <label for="donorEmail">Email Address</label>
+            <input type="email" id="donorEmail"
+                   placeholder="Enter email address">
+
+            <label for="donorAddress">Address</label>
+            <input type="text" id="donorAddress"
+                   placeholder="Enter address">
+
+            <button type="submit">Add Donor</button>
+
+            <p id="donorMessage"></p>
+
+        </form>
+    </section>
+
+    <section class="dashboard-section">
+        <h2>Donor Records</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Donor ID</th>
+                        <th>Donor Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+
+                <tbody id="donorTableBody">
+                    <tr>
+                        <td>1</td>
+                        <td>Sample Donor</td>
+                        <td>9876543210</td>
+                        <td>donor@example.com</td>
+                        <td>Bengaluru</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 GiveTrack | Community Donation Ledger</p>
+</footer>
+
+<script src="js/donors.js"></script>
+
+</body>
+</html>

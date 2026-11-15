@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiveTrack | Beneficiary Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Give<span>Track</span></div>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="donors.html">Donors</a>
+        <a href="beneficiaries.html">Beneficiaries</a>
+        <a href="donations.html">Donations</a>
+        <a href="allocations.html">Allocations</a>
+        <a href="index.html">Logout</a>
+    </nav>
+</header>
+
+<main class="dashboard">
+
+    <div class="dashboard-heading">
+        <div>
+            <h1>Beneficiary Management</h1>
+            <p>Manage people and communities receiving donations.</p>
+        </div>
+    </div>
+
+    <section class="dashboard-section">
+        <h2>Add New Beneficiary</h2>
+
+        <form id="beneficiaryForm">
+
+            <label for="beneficiaryName">Beneficiary Name</label>
+            <input type="text" id="beneficiaryName"
+                   placeholder="Enter beneficiary name" required>
+
+            <label for="beneficiaryPhone">Phone Number</label>
+            <input type="tel" id="beneficiaryPhone"
+                   placeholder="Enter phone number" required>
+
+            <label for="beneficiaryAddress">Address</label>
+            <input type="text" id="beneficiaryAddress"
+                   placeholder="Enter address" required>
+
+            <label for="requirementDetails">Requirement Details</label>
+            <input type="text" id="requirementDetails"
+                   placeholder="Enter beneficiary requirements" required>
+
+            <button type="submit">Add Beneficiary</button>
+
+            <p id="beneficiaryMessage"></p>
+
+        </form>
+    </section>
+
+    <section class="dashboard-section">
+        <h2>Beneficiary Records</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Beneficiary ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Requirements</th>
+                    </tr>
+                </thead>
+
+                <tbody id="beneficiaryTableBody">
+                    <tr>
+                        <td>1</td>
+                        <td>Sample Beneficiary</td>
+                        <td>9876543210</td>
+                        <td>Bengaluru</td>
+                        <td>Education Support</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 GiveTrack | Community Donation Ledger</p>
+</footer>
+
+<script src="js/beneficiaries.js"></script>
+
+</body>
+</html>

@@ -12,6 +12,8 @@ body {
     min-height: 100vh;
 }
 
+/* Navigation */
+
 .navbar {
     background: #153b50;
     color: white;
@@ -33,6 +35,25 @@ body {
 .navbar p {
     font-size: 14px;
 }
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.navbar nav a:hover {
+    color: #58d6ad;
+}
+
+/* Login Page */
 
 .container {
     width: 85%;
@@ -136,33 +157,7 @@ button:hover {
     font-size: 13px;
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    color: #8993a4;
-    font-size: 13px;
-}
-
-@media (max-width: 750px) {
-    .container {
-        flex-direction: column;
-        padding: 45px 0;
-    }
-
-    .login-card {
-        width: 100%;
-    }
-
-    .welcome h1 {
-        font-size: 30px;
-    }
-
-    .navbar p {
-        display: none;
-    }
-}
-
-/* Dashboard Styling */
+/* Dashboard */
 
 .dashboard {
     width: 85%;
@@ -193,6 +188,8 @@ footer {
     border-radius: 20px;
     font-size: 13px;
 }
+
+/* Summary Cards */
 
 .summary-cards {
     display: grid;
@@ -225,6 +222,8 @@ footer {
     font-size: 13px;
 }
 
+/* Dashboard Sections */
+
 .dashboard-section {
     background: white;
     padding: 25px;
@@ -250,6 +249,78 @@ footer {
     padding: 10px 18px;
 }
 
+/* Donation Search */
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-container input {
+    flex: 1;
+    width: auto;
+    margin-bottom: 0;
+    padding: 14px;
+    border: 1px solid #d5dce5;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #218568;
+    box-shadow: 0 0 0 3px rgba(33,133,104,0.1);
+}
+
+.search-container button {
+    width: auto;
+    min-width: 110px;
+    padding: 14px 22px;
+    background: #218568;
+}
+
+#searchMessage {
+    margin-top: 18px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #176b53;
+}
+
+#searchResults {
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+#searchResults table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#searchResults th,
+#searchResults td {
+    padding: 13px;
+    border-bottom: 1px solid #edf0f3;
+    text-align: left;
+}
+
+#searchResults th {
+    background: #f7f9fb;
+    color: #667085;
+}
+
+.search-empty {
+    color: #c0392b;
+    padding: 15px 0;
+}
+
+.search-warning {
+    color: #b7791f;
+    padding: 15px 0;
+}
+
+/* Tables */
+
 .table-container {
     overflow-x: auto;
 }
@@ -271,6 +342,8 @@ th {
     background: #f7f9fb;
 }
 
+/* Status */
+
 .status {
     background: #d9f5eb;
     color: #176b53;
@@ -280,7 +353,44 @@ th {
     font-weight: bold;
 }
 
-@media(max-width: 750px) {
+/* Dashboard Messages */
+
+#dashboardMessage {
+    margin-top: 15px;
+    color: #218568;
+    font-weight: bold;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #8993a4;
+    font-size: 13px;
+}
+
+/* Responsive Design */
+
+@media (max-width: 750px) {
+
+    .container {
+        flex-direction: column;
+        padding: 45px 0;
+    }
+
+    .login-card {
+        width: 100%;
+    }
+
+    .welcome h1 {
+        font-size: 30px;
+    }
+
+    .navbar p {
+        display: none;
+    }
+
     .summary-cards {
         grid-template-columns: 1fr;
     }
@@ -301,10 +411,44 @@ th {
         flex-wrap: wrap;
         gap: 10px;
     }
+}
 
-    .navbar nav a {
-        color: white;
-        text-decoration: none;
-        font-size: 13px;
+@media (max-width: 600px) {
+
+    .dashboard {
+        width: 92%;
+        margin: 25px auto;
+    }
+
+    .dashboard-section {
+        padding: 15px;
+    }
+
+    .section-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .section-heading button {
+        width: 100%;
+    }
+
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-container input {
+        width: 100%;
+    }
+
+    .search-container button {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 12px;
     }
 }
