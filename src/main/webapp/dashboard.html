@@ -11,10 +11,13 @@
 
 <header class="navbar">
     <div class="logo">Give<span>Track</span></div>
+
     <nav>
         <a href="dashboard.html">Dashboard</a>
-        <a href="#donations">Donations</a>
-        <a href="#allocations">Allocations</a>
+        <a href="donors.html">Donors</a>
+        <a href="beneficiaries.html">Beneficiaries</a>
+        <a href="donations.html">Donations</a>
+        <a href="allocations.html">Allocations</a>
         <a href="index.html">Logout</a>
     </nav>
 </header>
@@ -52,7 +55,7 @@
 
     </section>
 
-    <!-- Donation Search -->
+    <!-- Donation Search Interface -->
     <section class="dashboard-section" id="donation-search">
 
         <div class="section-heading">
@@ -66,11 +69,8 @@
                 placeholder="Search by donor or donation type..."
             >
 
-            <button onclick="searchDonations()">Search</button>
+            <button type="button">Search</button>
         </div>
-
-        <p id="searchMessage"></p>
-        <div id="searchResults"></div>
 
     </section>
 
@@ -79,9 +79,7 @@
 
         <div class="section-heading">
             <h2>Recent Donations</h2>
-            <button onclick="showMessage('Donation recording will be available soon.')">
-                + Add Donation
-            </button>
+            <button type="button">+ Add Donation</button>
         </div>
 
         <div class="table-container">
@@ -113,9 +111,7 @@
 
         <div class="section-heading">
             <h2>Recent Allocations</h2>
-            <button onclick="showMessage('Allocation recording will be available soon.')">
-                + Add Allocation
-            </button>
+            <button type="button">+ Add Allocation</button>
         </div>
 
         <div class="table-container">
@@ -152,15 +148,11 @@
 
     </section>
 
-    <p id="dashboardMessage"></p>
-
 </main>
 
 <footer>
     <p>© 2026 GiveTrack | Community Donation Ledger</p>
 </footer>
-
-<script src="js/dashboard.js"></script>
 
 </body>
 </html>

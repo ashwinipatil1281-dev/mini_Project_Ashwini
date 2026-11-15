@@ -33,22 +33,21 @@
     <section class="dashboard-section">
         <h2>Record New Donation</h2>
 
-        <form id="donationForm">
-
+        <div>
             <label for="donorId">Donor ID</label>
             <input type="number" id="donorId"
-                   placeholder="Enter donor ID" min="1" required>
+                   placeholder="Enter donor ID" min="1">
 
             <label for="donationAmount">Donation Amount (₹)</label>
             <input type="number" id="donationAmount"
                    placeholder="Enter amount" min="0.01"
-                   step="0.01" required>
+                   step="0.01">
 
             <label for="donationDate">Donation Date</label>
-            <input type="date" id="donationDate" required>
+            <input type="date" id="donationDate">
 
             <label for="paymentMode">Payment Mode</label>
-            <select id="paymentMode" required>
+            <select id="paymentMode">
                 <option value="">Select payment mode</option>
                 <option value="CASH">Cash</option>
                 <option value="UPI">UPI</option>
@@ -58,16 +57,12 @@
 
             <label for="donationPurpose">Purpose</label>
             <input type="text" id="donationPurpose"
-                   placeholder="Enter donation purpose" required>
+                   placeholder="Enter donation purpose">
 
-            <button type="submit">Record Donation</button>
-
-            <p id="donationMessage"></p>
-
-        </form>
+            <button type="button">Record Donation</button>
+        </div>
     </section>
 
-    <!-- DONATION SEARCH SECTION -->
     <section class="dashboard-section">
         <h2>Search Donation Records</h2>
 
@@ -77,16 +72,10 @@
                 id="donationSearch"
                 placeholder="Search by donor ID, amount, date, payment mode or purpose">
 
-            <button type="button" onclick="searchDonations()">
-                Search
-            </button>
+            <button type="button">Search</button>
         </div>
-
-        <p id="searchMessage"></p>
-        <div id="searchResults"></div>
     </section>
 
-    <!-- DONATION RECORDS -->
     <section class="dashboard-section">
         <h2>Donation Records</h2>
 
@@ -104,6 +93,7 @@
                 </thead>
 
                 <tbody id="donationTableBody">
+                    <!-- Donation records will be displayed here later -->
                 </tbody>
             </table>
         </div>
@@ -114,8 +104,6 @@
 <footer>
     <p>© 2026 GiveTrack | Community Donation Ledger</p>
 </footer>
-
-<script src="js/donations.js"></script>
 
 </body>
 </html>
