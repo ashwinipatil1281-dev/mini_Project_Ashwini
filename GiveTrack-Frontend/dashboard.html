@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiveTrack | Community Donation Ledger</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="app-body">
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <span class="logo-icon">✦</span>
+                    <span class="logo-text">Give<span class="highlight">Track</span></span>
+                </div>
+            </div>
+
+            <div class="user-profile-badge">
+                <div class="avatar" id="userAvatar">U</div>
+                <div class="user-meta">
+                    <span class="user-name" id="profileUsername">Loading...</span>
+                    <span class="user-role-tag" id="profileRole">ROLE</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" onclick="switchView('dashboard')">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#donations" class="nav-item" onclick="switchView('donations')">
+                    <span class="nav-icon">💰</span>
+                    <span>Donations</span>
+                </a>
+                <a href="#allocations" class="nav-item" onclick="switchView('allocations')">
+                    <span class="nav-icon">🎯</span>
+                    <span>Allocations</span>
+                </a>
+                <a href="#donors" class="nav-item" onclick="switchView('donors')">
+                    <span class="nav-icon">🤝</span>
+                    <span>Donors</span>
+                </a>
+                <a href="#beneficiaries" class="nav-item" onclick="switchView('beneficiaries')">
+                    <span class="nav-icon">👥</span>
+                    <span>Beneficiaries</span>
+                </a>
+                <a href="#audit" class="nav-item admin-only" id="navAudit" onclick="switchView('audit')">
+                    <span class="nav-icon">📜</span>
+                    <span>Audit Trail</span>
+                </a>
+                <a href="#reports" class="nav-item" onclick="switchView('reports')">
+                    <span class="nav-icon">📈</span>
+                    <span>Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-outline-danger btn-block" onclick="logout()">
+                    <span>🚪 Sign Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <!-- Top Navigation Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title" id="pageTitle">Dashboard Overview</h1>
+                    <span class="page-subtitle" id="pageSubtitle">Live financial ledger and community aid metrics</span>
+                </div>
+                <div class="topbar-right">
+                    <div class="balance-pill">
+                        <span class="pill-label">Available Balance:</span>
+                        <span class="pill-value" id="topbarBalance">₹0.00</span>
+                    </div>
+                    <button class="btn btn-primary" id="quickActionBtn" onclick="openQuickActionModal()">
+                        <span>+ Record New</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <main class="content-container">
+
+                <!-- 1. DASHBOARD VIEW -->
+                <section id="viewDashboard" class="view-section active">
+                    <!-- KPI Cards -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card card-donations">
+                            <div class="kpi-icon">💰</div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Total Donations Received</span>
+                                <h3 class="kpi-value" id="statTotalDonations">₹0.00</h3>
+                                <span class="kpi-subtext" id="statDonationCount">0 Donations recorded</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card card-allocated">
+                            <div class="kpi-icon">🎯</div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Total Funds Distributed</span>
+                                <h3 class="kpi-value" id="statTotalAllocated">₹0.00</h3>
+                                <span class="kpi-subtext" id="statAllocatedCount">Active allocations</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card card-remaining">
+                            <div class="kpi-icon">⚖️</div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Remaining Unallocated</span>
+                                <h3 class="kpi-value" id="statRemainingBalance">₹0.00</h3>
+                                <span class="kpi-subtext">100% strictly calculated</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card card-community">
+                            <div class="kpi-icon">🤝</div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Community Reach</span>
+                                <h3 class="kpi-value"><span id="statDonorCount">0</span> / <span id="statBeneficiaryCount">0</span></h3>
+                                <span class="kpi-subtext">Active Donors & Beneficiaries</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Utilization Bar -->
+                    <div class="card utilization-card">
+                        <div class="card-header-flex">
+                            <h4>Fund Allocation Ratio</h4>
+                            <span id="allocationPercentage" class="percentage-badge">0% Allocated</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="allocationProgress" class="progress-bar-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Two-column recent feeds -->
+                    <div class="dashboard-split-grid">
+                        <!-- Recent Donations Table -->
+                        <div class="card">
+                            <div class="card-header-flex">
+                                <h3>Recent Donations</h3>
+                                <button class="btn btn-sm btn-outline" onclick="switchView('donations')">View All</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Donor</th>
+                                            <th>Amount</th>
+                                            <th>Mode</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentDonationsTableBody">
+                                        <tr><td colspan="4" class="text-center">Loading live records...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Recent Allocations Table -->
+                        <div class="card">
+                            <div class="card-header-flex">
+                                <h3>Recent Allocations</h3>
+                                <button class="btn btn-sm btn-outline" onclick="switchView('allocations')">View All</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Beneficiary</th>
+                                            <th>Amount</th>
+                                            <th>Purpose</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentAllocationsTableBody">
+                                        <tr><td colspan="4" class="text-center">Loading live records...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. DONATIONS VIEW -->
+                <section id="viewDonations" class="view-section">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <input type="text" id="donationSearch" placeholder="Search by donor, payment mode, purpose..." onkeyup="filterDonations()">
+                            </div>
+                            <div class="toolbar-actions">
+                                <button class="btn btn-primary" onclick="openAddDonationModal()">+ Record Donation</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Donor</th>
+                                        <th>Donated Amount</th>
+                                        <th>Allocated</th>
+                                        <th>Remaining Balance</th>
+                                        <th>Mode</th>
+                                        <th>Date</th>
+                                        <th>Purpose</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="donationsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. ALLOCATIONS VIEW -->
+                <section id="viewAllocations" class="view-section">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <input type="text" id="allocationSearch" placeholder="Search by beneficiary, donor, purpose, status..." onkeyup="filterAllocations()">
+                            </div>
+                            <div class="toolbar-actions">
+                                <button class="btn btn-primary" onclick="openAddAllocationModal()">+ Make Allocation</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Beneficiary</th>
+                                        <th>Source Donor</th>
+                                        <th>Allocated Amount</th>
+                                        <th>Date</th>
+                                        <th>Purpose</th>
+                                        <th>Status</th>
+                                        <th>Change Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allocationsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. DONORS VIEW -->
+                <section id="viewDonors" class="view-section">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <input type="text" id="donorSearch" placeholder="Search donor by name, phone, email, address..." onkeyup="filterDonors()">
+                            </div>
+                            <div class="toolbar-actions">
+                                <button class="btn btn-primary" onclick="openAddDonorModal()">+ Add Donor</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Donor Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Address</th>
+                                        <th>Total Contributed</th>
+                                        <th>Donations</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="donorsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. BENEFICIARIES VIEW -->
+                <section id="viewBeneficiaries" class="view-section">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <input type="text" id="beneficiarySearch" placeholder="Search beneficiary by name, phone, details..." onkeyup="filterBeneficiaries()">
+                            </div>
+                            <div class="toolbar-actions">
+                                <button class="btn btn-primary" onclick="openAddBeneficiaryModal()">+ Add Beneficiary</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Beneficiary Name</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Requirement Details</th>
+                                        <th>Total Aid Allocated</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="beneficiariesTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. AUDIT TRAIL VIEW (ADMIN ONLY) -->
+                <section id="viewAudit" class="view-section">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <input type="text" id="auditSearch" placeholder="Filter audit trail..." onkeyup="filterAuditLogs()">
+                            </div>
+                            <div class="toolbar-actions">
+                                <button class="btn btn-outline" onclick="loadAuditLogs()">🔄 Refresh Audit Trail</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Audit ID</th>
+                                        <th>Timestamp</th>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Action Type</th>
+                                        <th>Table</th>
+                                        <th>Record ID</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. REPORTS VIEW -->
+                <section id="viewReports" class="view-section">
+                    <div class="reports-header-card card">
+                        <div class="card-header-flex">
+                            <div>
+                                <h3>Community Financial & Impact Ledger</h3>
+                                <p class="text-muted">Summary audit and breakdown report across all ledger entities</p>
+                            </div>
+                            <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Export PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="reports-grid">
+                        <div class="card">
+                            <h4>Payment Mode Breakdown</h4>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Mode</th>
+                                            <th>Count</th>
+                                            <th>Total Collected</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reportPaymentModesBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h4>Allocation Status Breakdown</h4>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Allocations</th>
+                                            <th>Total Sum</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reportStatusBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 1.5rem;">
+                        <h4>Top Contributing Community Donors</h4>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Donor Name</th>
+                                        <th>Donations Made</th>
+                                        <th>Total Contributed</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportTopDonorsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL 1: Add Donor -->
+    <div id="modalDonor" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="donorModalTitle">Add New Donor</h3>
+                <button class="close-btn" onclick="closeModal('modalDonor')">&times;</button>
+            </div>
+            <form id="formDonor" onsubmit="submitDonor(event)">
+                <input type="hidden" id="donorId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="donorName">Full Name *</label>
+                        <input type="text" id="donorName" required placeholder="e.g. Ramesh Kumar">
+                    </div>
+                    <div class="form-group">
+                        <label for="donorPhone">Phone Number</label>
+                        <input type="tel" id="donorPhone" placeholder="e.g. 9876543210">
+                    </div>
+                    <div class="form-group">
+                        <label for="donorEmail">Email Address</label>
+                        <input type="email" id="donorEmail" placeholder="e.g. ramesh@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="donorAddress">Address / Location</label>
+                        <input type="text" id="donorAddress" placeholder="e.g. Hubballi, Karnataka">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('modalDonor')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="donorSubmitBtn">Save Donor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Add Beneficiary -->
+    <div id="modalBeneficiary" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="beneficiaryModalTitle">Add Beneficiary</h3>
+                <button class="close-btn" onclick="closeModal('modalBeneficiary')">&times;</button>
+            </div>
+            <form id="formBeneficiary" onsubmit="submitBeneficiary(event)">
+                <input type="hidden" id="beneficiaryId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="beneficiaryName">Beneficiary / Cause Name *</label>
+                        <input type="text" id="beneficiaryName" required placeholder="e.g. Ananya or Dharwad Orphanage">
+                    </div>
+                    <div class="form-group">
+                        <label for="beneficiaryPhone">Phone Number</label>
+                        <input type="tel" id="beneficiaryPhone" placeholder="e.g. 9876523456">
+                    </div>
+                    <div class="form-group">
+                        <label for="beneficiaryAddress">Address / Location</label>
+                        <input type="text" id="beneficiaryAddress" placeholder="e.g. Dharwad">
+                    </div>
+                    <div class="form-group">
+                        <label for="beneficiaryDetails">Requirement Details</label>
+                        <textarea id="beneficiaryDetails" rows="3" placeholder="Describe educational, medical, food or basic aid needed..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('modalBeneficiary')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="beneficiarySubmitBtn">Save Beneficiary</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Record Donation -->
+    <div id="modalDonation" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Record New Community Donation</h3>
+                <button class="close-btn" onclick="closeModal('modalDonation')">&times;</button>
+            </div>
+            <form id="formDonation" onsubmit="submitDonation(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="donationDonorSelect">Select Donor *</label>
+                        <select id="donationDonorSelect" required>
+                            <option value="">-- Choose Donor --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationAmount">Amount (₹) *</label>
+                        <input type="number" step="0.01" min="1" id="donationAmount" required placeholder="e.g. 5000.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="donationPaymentMode">Payment Mode *</label>
+                        <select id="donationPaymentMode" required>
+                            <option value="UPI">UPI (GooglePay / PhonePe / Paytm)</option>
+                            <option value="Bank Transfer">Bank Transfer (NEFT / IMPS)</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Cheque">Cheque</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationDate">Donation Date *</label>
+                        <input type="date" id="donationDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationPurpose">Purpose / Note</label>
+                        <input type="text" id="donationPurpose" placeholder="e.g. Education Support / General Relief">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('modalDonation')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="donationSubmitBtn">Record Donation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Make Allocation -->
+    <div id="modalAllocation" class="modal-backdrop hidden">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Allocate Donated Funds</h3>
+                <button class="close-btn" onclick="closeModal('modalAllocation')">&times;</button>
+            </div>
+            <form id="formAllocation" onsubmit="submitAllocation(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="allocDonationSelect">Source Donation (with Remaining Balance) *</label>
+                        <select id="allocDonationSelect" required onchange="onDonationSelectChanged()">
+                            <option value="">-- Choose Funded Donation --</option>
+                        </select>
+                    </div>
+
+                    <div id="selectedDonationBalanceBox" class="alert alert-info hidden">
+                        <span>Available Remaining Balance: </span>
+                        <strong id="selectedRemainingBalance">₹0.00</strong>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allocBeneficiarySelect">Target Beneficiary *</label>
+                        <select id="allocBeneficiarySelect" required>
+                            <option value="">-- Choose Beneficiary --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allocAmount">Allocation Amount (₹) *</label>
+                        <input type="number" step="0.01" min="1" id="allocAmount" required placeholder="e.g. 2500.00">
+                        <small class="helper-text">Cannot exceed the source donation's remaining balance.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allocPurpose">Purpose / Specific Grant Detail *</label>
+                        <input type="text" id="allocPurpose" required placeholder="e.g. School Books & Tuition Fees">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allocStatus">Initial Allocation Status</label>
+                        <select id="allocStatus">
+                            <option value="ALLOCATED">ALLOCATED (Committed to Beneficiary)</option>
+                            <option value="PENDING">PENDING (Awaiting Verification)</option>
+                            <option value="FULFILLED">FULFILLED (Disbursed to Beneficiary)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('modalAllocation')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="allocSubmitBtn">Submit Allocation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Core App Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>
